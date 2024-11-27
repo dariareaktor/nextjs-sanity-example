@@ -1,13 +1,29 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {DocumentIcon} from '@sanity/icons'
+import {isUniqueAcrossAllDocuments} from '../lib/isUniqueAcrossAllDocuments'
 
 export const pageType = defineType({
   name: 'page',
-  type: 'document',
   title: 'Page',
+  type: 'document',
   fields: [
-    defineField({name: 'title', type: 'string'}),
-    defineField({name: 'slug', type: 'slug'}),
+    defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      validation: (rule) => rule.required(),
+      options: {
+        source: 'title',
+        maxLength: 96,
+        isUnique: isUniqueAcrossAllDocuments,
+      },
+    }),
     defineField({
       name: 'pageBuilder',
       type: 'array',
@@ -15,39 +31,53 @@ export const pageType = defineType({
       of: [
         defineArrayMember({
           name: 'hero',
+          title: 'Hero Section',
           type: 'hero',
         }),
         defineArrayMember({
-          name: 'textWithIllustration',
-          type: 'textWithIllustration',
+          name: 'cardsSection',
+          title: 'Cards Section',
+          type: 'cards',
         }),
-        defineArrayMember({
-          name: 'gallery',
-          type: 'gallery',
-        }),
-        defineArrayMember({
-          name: 'form',
-          type: 'form',
-        }),
-        defineArrayMember({
-          name: 'callToAction',
-          type: 'reference',
-          to: [{type: 'promotion'}],
-        }),
+        // defineArrayMember({
+        //   name: 'referenceToSection',
+        //   title: 'Reusable section',
+        //   type: 'reference',
+        //   to: [{type: 'section'}],
+        // }),
+      ],
+      validation: (Rule) => Rule.required().min(1).error('A page must have at least one block'),
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'object',
+      fields: [
+        {
+          name: 'metaTitle',
+          title: 'Meta Title',
+          type: 'string',
+        },
+        {
+          name: 'metaDescription',
+          title: 'Meta Description',
+          type: 'text',
+          rows: 3,
+        },
       ],
     }),
   ],
   icon: DocumentIcon,
   preview: {
     select: {
-      title: 'heading',
-      image: 'image',
+      title: 'title',
+      media: 'image',
     },
-    prepare({title, image}) {
+    prepare(selection) {
+      const {title, media} = selection
       return {
-        title: title || 'Untitled',
-        subtitle: 'Page',
-        media: image || DocumentIcon,
+        title: title ?? 'Currently no title, set one inside this block',
+        media: media ?? DocumentIcon,
       }
     },
   },

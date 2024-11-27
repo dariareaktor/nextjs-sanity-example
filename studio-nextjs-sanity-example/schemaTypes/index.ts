@@ -1,15 +1,15 @@
-import {formType} from './formType'
 import {heroType} from './heroType'
-import {imageGalleryType} from './imageGalleryType'
+import {mediaType} from './mediaType'
+import {blogPostType} from './blogPostType'
 import {pageType} from './pageType'
-import {promotionType} from './promotionType'
-import {textWithIllustrationType} from './textWithIllustrationType'
+import {productType} from './productType'
+import {cardsSectionType} from './cardsSectionType'
 
 export const schemaTypes = [
   pageType,
   heroType,
-  textWithIllustrationType,
-  imageGalleryType,
-  formType,
-  promotionType,
+  cardsSectionType,
+  mediaType,
+  productType,
+  blogPostType,
 ]
