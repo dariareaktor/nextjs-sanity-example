@@ -1,31 +1,117 @@
-import Link from "next/link";
-import { type SanityDocument } from "next-sanity";
-
 import { client } from "@/sanity/client";
+import { Hero } from "@/components/Hero/Hero";
+import { CardsGrid } from "@/components/CardsGrid/CardsGrid";
+import { HeroData } from "@/types/HeroData";
+import { CardsGridData } from "@/types/CardsGridData";
 
-const POSTS_QUERY = `*[
-  _type == "post"
-  && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
+const PAGE_QUERY = `
+  *[_type == "page" && isHomePage == true]{ 
+    _id, 
+    title, 
+    slug, 
+    pageBuilder[]{
+      ...,
+      _type == "heroSection" => {
+        heading,
+        subheading,
+        callToAction {
+          callToActionText,
+          callToActionLink
+        },
+        image {
+          imageReference->{
+            image {
+              asset->{
+                url
+              },
+              alt
+            }
+          },
+          imagePosition
+        },
+        backgroundColor
+      },
+      _type == "cardsGridSection" => {
+        heading,
+        subheading,
+        maxColumns,
+        cardsSource,
+        productItems[]->{
+          _id,
+          title,
+          description,
+          image->{
+            image {
+              asset->{
+                url
+              },
+              alt
+            }
+          }
+        },
+        blogPostItems[]->{
+          _id,
+          title,
+          description,
+          date
+        }
+      }
+    }
+  }
+`;
 
 const options = { next: { revalidate: 30 } };
 
+type Page = {
+  _id: string;
+  title: string;
+  slug: string;
+  pageBuilder: (HeroData | CardsGridData)[];
+};
+
 export default async function IndexPage() {
-  const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
+  const pages = await client.fetch<Page[]>(PAGE_QUERY, {}, options);
+
+  if (pages.length === 0) {
+    return null;
+  }
+
+  const page = pages[0];
 
   return (
-    <main className="container mx-auto min-h-screen max-w-3xl p-8">
-      <h1 className="text-4xl font-bold mb-8">Posts</h1>
-      <ul className="flex flex-col gap-y-4">
-        {posts.map((post) => (
-          <li className="hover:underline" key={post._id}>
-            <Link href={`/${post.slug.current}`}>
-              <h2 className="text-xl font-semibold">{post.title}</h2>
-              <p>{new Date(post.publishedAt).toLocaleDateString()}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <main>
+      <div className="container mx-auto max-w-3xl p-8">
+        <h1 className="text-4xl font-bold mb-8">{page.title}</h1>
+      </div>
+      {page.pageBuilder?.map((section, index) => {
+        switch (section._type) {
+          case "heroSection":
+            return (
+              <Hero
+                key={index}
+                heading={section.heading}
+                subheading={section.subheading}
+                callToAction={section.callToAction}
+                image={section.image}
+                backgroundColor={section.backgroundColor}
+              />
+            );
+          case "cardsGridSection":
+            return (
+              <CardsGrid
+                key={index}
+                heading={section.heading}
+                subheading={section.subheading}
+                maxColumns={section.maxColumns}
+                cardsSource={section.cardsSource}
+                productItems={section.productItems}
+                blogPostItems={section.blogPostItems}
+              />
+            );
+          default:
+            return null;
+        }
+      })}
     </main>
   );
 }

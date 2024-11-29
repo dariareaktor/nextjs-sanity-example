@@ -1,30 +1,28 @@
 import {defineField, defineType} from 'sanity'
 import {ComponentIcon} from '@sanity/icons'
 
-export const cardsSectionType = defineType({
-  name: 'cards',
-  title: 'Cards Page Section',
+export const cardsGridType = defineType({
+  name: 'cardsGridSection',
+  title: 'Cards Grid Section',
   type: 'object',
   fields: [
     defineField({
-      name: 'title',
-      title: 'Title',
+      name: 'heading',
+      title: 'Heading',
+      type: 'string',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'subheading',
+      title: 'Subheading',
       type: 'string',
     }),
     defineField({
-      name: 'layout',
-      title: 'Layout',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Grid', value: 'grid'},
-          {title: 'Vertical List', value: 'verticalList'},
-          {title: 'Horizontal List', value: 'horizontalList'},
-          {title: 'Carousel', value: 'carousel'},
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'Grid',
+      name: 'maxColumns',
+      title: 'Maximum Columns Count',
+      description:
+        'Depending on the screen size and text size there can be less columns, but no more than this setting tells.',
+      type: 'number',
     }),
     defineField({
       name: 'cardsSource',
@@ -37,6 +35,7 @@ export const cardsSectionType = defineType({
         ],
         layout: 'radio',
       },
+      initialValue: 'product',
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -67,16 +66,13 @@ export const cardsSectionType = defineType({
   icon: ComponentIcon,
   preview: {
     select: {
-      title: 'settings.title',
-      layout: 'layout',
-      cardsSource: 'cardsSource',
+      heading: 'heading',
+      subheading: 'subheading',
     },
-    prepare({title, layout, cardsSource}) {
+    prepare({heading, subheading}) {
       return {
-        title: title || 'Untitled Cards Page Section',
-        subtitle: `${layout ? layout.charAt(0).toUpperCase() + layout.slice(1) : 'Layout'} - ${
-          cardsSource ? cardsSource.charAt(0).toUpperCase() + cardsSource.slice(1) : 'Cards Source'
-        }`,
+        title: heading || 'Untitled Cards Grid',
+        subtitle: subheading,
         media: ComponentIcon,
       }
     },

@@ -1,6 +1,7 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {DocumentIcon} from '@sanity/icons'
 import {isUniqueAcrossAllDocuments} from '../lib/isUniqueAcrossAllDocuments'
+import {isHomePageUnique} from '../lib/isHomePageUnique'
 
 export const pageType = defineType({
   name: 'page',
@@ -25,19 +26,32 @@ export const pageType = defineType({
       },
     }),
     defineField({
+      name: 'isHomePage',
+      title: 'Is Home Page?',
+      type: 'boolean',
+      description: 'Mark this page as the home page. Only one page can have this flag enabled.',
+      // validation: (Rule) => Rule.custom(isHomePageUnique),
+    }),
+    defineField({
       name: 'pageBuilder',
       type: 'array',
       title: 'Page builder',
       of: [
         defineArrayMember({
-          name: 'hero',
+          name: 'heroSection',
           title: 'Hero Section',
-          type: 'hero',
+          type: 'heroSection',
         }),
         defineArrayMember({
-          name: 'cardsSection',
-          title: 'Cards Section',
-          type: 'cards',
+          name: 'cardsGridSection',
+          title: 'Cards Grid Section',
+          type: 'cardsGridSection',
+        }),
+        defineArrayMember({
+          name: 'imageReference',
+          title: 'Image Reference',
+          type: 'reference',
+          to: [{type: 'media'}],
         }),
         // defineArrayMember({
         //   name: 'referenceToSection',

@@ -12,7 +12,7 @@ export const blogPostType = defineType({
       type: 'string',
     }),
     defineField({
-      name: 'date',
+      name: 'publishDate',
       title: 'Publish Date',
       type: 'date',
     }),
@@ -28,25 +28,38 @@ export const blogPostType = defineType({
       },
     }),
     defineField({
-      name: 'description',
-      title: 'Short Description',
+      name: 'summary',
+      title: 'Summary',
       type: 'string',
+    }),
+    defineField({
+      name: 'content',
+      title: 'Content',
+      type: 'array',
+      of: [
+        {type: 'block'},
+        {
+          name: 'imageReference',
+          title: 'Image Reference',
+          type: 'reference',
+          to: [{type: 'media'}],
+        },
+      ],
     }),
   ],
   icon: BookIcon,
   preview: {
     select: {
       title: 'title',
-      media: 'image',
-      mediaType: 'mediaType',
-      alt: 'alt',
+      publishDate: 'publishDate',
+      category: 'category',
     },
     prepare(selection) {
-      const {title, media, alt} = selection
+      const {title, publishDate, category} = selection
       return {
-        title: title ?? 'Untitled Product',
-        subtitle: alt,
-        media: media ?? BookIcon,
+        title: title ?? 'Untitled Blog Post',
+        subtitle: `${category} - ${publishDate.toString()}`,
+        media: BookIcon,
       }
     },
   },

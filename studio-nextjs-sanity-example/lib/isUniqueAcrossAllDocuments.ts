@@ -2,7 +2,7 @@ import {SlugIsUniqueValidator} from 'sanity'
 
 export const isUniqueAcrossAllDocuments: SlugIsUniqueValidator = async (slug, context) => {
   const {document, getClient} = context
-  const client = getClient({apiVersion: '2022-12-07'})
+  const client = getClient({apiVersion: '2024-01-01'})
 
   const id = document?._id.replace(/^drafts\./, '')
   const params = {
