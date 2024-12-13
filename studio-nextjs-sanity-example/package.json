@@ -15,15 +15,21 @@
     "sanity"
   ],
   "dependencies": {
+    "@portabletext/types": "^2.0.13",
     "@sanity/vision": "^3.64.3",
+    "lodash.get": "^4.4.2",
+    "pluralize-esm": "^9.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sanity": "^3.64.3",
+    "slug": "^10.0.0",
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^4.0.0",
+    "@types/lodash.get": "^4.4.9",
     "@types/react": "^18.0.25",
+    "@types/slug": "^5.0.9",
     "eslint": "^8.6.0",
     "prettier": "^3.0.2",
     "typescript": "^5.1.6"
