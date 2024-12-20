@@ -1,113 +1,121 @@
 import { client } from "@/sanity/client";
-import { Hero } from "@/components/Hero/Hero";
-import { CardsGrid } from "@/components/CardsGrid/CardsGrid";
-import { HeroData } from "@/types/HeroData";
-import { CardsGridData } from "@/types/CardsGridData";
+import { Hero as HeroData } from "@/types/Hero";
+import { CallToAction as CallToActionData } from "@/types/CallToAction";
+import { Callout as CalloutData } from "@/types/Callout";
+import { Seo } from "@/types/HomeSeo";
+import { Hero } from "@/components/Hero";
+import { Callout } from "@/components/Callout";
+import { CallToAction } from "@/components/CallToAction";
 
-const PAGE_QUERY = `
-  *[_type == "page" && isHomePage == true]{ 
-    _id, 
-    title, 
-    slug, 
-    pageBuilder[]{
-      ...,
-      _type == "heroSection" => {
-        heading,
-        subheading,
-        callToAction {
-          callToActionText,
-          callToActionLink
-        },
+const PAGE_QUERY = `*[_type == "home"][0]{
+  _id,
+  hero {
+    heading,
+    subheading,
+    link {
+      title,
+      reference->{
+        _type,
+        "slug": coalesce(slug.current, "/") // Resolve slug for internal links
+      }
+    },
+    image {
+      imageReference->{
         image {
-          imageReference->{
-            image {
-              asset->{
-                url
-              },
-              alt
-            }
-          },
-          imagePosition
-        },
-        backgroundColor
-      },
-      _type == "cardsGridSection" => {
-        heading,
-        subheading,
-        maxColumns,
-        cardsSource,
-        productItems[]->{
-          _id,
-          title,
-          description,
-          image->{
-            image {
-              asset->{
-                url
-              },
-              alt
-            }
+          asset->{
+            url
           }
         },
-        blogPostItems[]->{
-          _id,
-          title,
-          description,
-          date
-        }
+        alt
+      },
+      imagePosition
+    },
+    backgroundColor
+  },
+  modules[] {
+    _type == "module.callout" => {
+      _type,
+      text,
+      links[] {
+        title,
+        _type,
+        "href": coalesce(
+          reference->slug.current, // Internal links
+          externalLink // External links
+        )
+      }
+    },
+    _type == "module.callToAction" => {
+      _type,
+      layout,
+      title,
+      body,
+      links[] {
+        title,
+        _type,
+        "href": coalesce(
+          reference->slug.current, // Internal links
+          externalLink // External links
+        )
+      },
+      imageReference->{
+        image {
+          asset->{
+            url
+          }
+        },
+        alt
+      }
+    },
+    _type == "reference" => {
+      _type,
+      imageReference->{
+        image {
+          asset->{
+            url
+          }
+        },
+        alt
+      }
+    }
+  },
+  seo {
+    title,
+    description,
+    image {
+      asset->{
+        url
       }
     }
   }
-`;
+}`;
 
 const options = { next: { revalidate: 30 } };
 
 type Page = {
   _id: string;
-  title: string;
-  slug: string;
-  pageBuilder: (HeroData | CardsGridData)[];
+  hero?: HeroData;
+  modules?: (CallToActionData | CalloutData)[];
+  seo?: Seo;
 };
 
 export default async function IndexPage() {
-  const pages = await client.fetch<Page[]>(PAGE_QUERY, {}, options);
+  const page = await client.fetch<Page>(PAGE_QUERY, {}, options);
 
-  if (pages.length === 0) {
+  if (page === undefined) {
     return null;
   }
 
-  const page = pages[0];
-
   return (
     <main>
-      <div className="container mx-auto max-w-3xl p-8">
-        <h1 className="text-4xl font-bold mb-8">{page.title}</h1>
-      </div>
-      {page.pageBuilder?.map((section, index) => {
+      <h1 className="sr-only">{page.seo?.title}</h1>
+      {page.hero && <Hero {...page.hero} />}
+      {page.modules?.map((section) => {
         switch (section._type) {
-          case "heroSection":
-            return (
-              <Hero
-                key={index}
-                heading={section.heading}
-                subheading={section.subheading}
-                callToAction={section.callToAction}
-                image={section.image}
-                backgroundColor={section.backgroundColor}
-              />
-            );
-          case "cardsGridSection":
-            return (
-              <CardsGrid
-                key={index}
-                heading={section.heading}
-                subheading={section.subheading}
-                maxColumns={section.maxColumns}
-                cardsSource={section.cardsSource}
-                productItems={section.productItems}
-                blogPostItems={section.blogPostItems}
-              />
-            );
+          case "module.callout":
+            return <Callout {...section} />;
+          case "module.callToAction":
+            return <CallToAction {...section} />;
           default:
             return null;
         }

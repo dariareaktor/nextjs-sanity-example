@@ -31,16 +31,7 @@ export default defineField({
       title: 'Page builder',
       description: 'Page modules and sections',
       type: 'array',
-      of: [
-        {type: 'module.callout'},
-        {type: 'module.callToAction'},
-        {
-          name: 'imageReference',
-          title: 'Image Reference',
-          type: 'reference',
-          to: [{type: 'media'}],
-        },
-      ],
+      of: [{type: 'module.callout'}, {type: 'module.callToAction'}],
       group: 'editorial',
     }),
     // SEO
