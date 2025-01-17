@@ -25,6 +25,7 @@ export default defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
+      group: 'editorial',
       validation: (Rule) => Rule.required(),
     }),
     // Slug
@@ -32,6 +33,7 @@ export default defineField({
       name: 'slug',
       type: 'slug',
       options: {source: 'title'},
+      group: 'editorial',
       // @ts-ignore - TODO - fix this TS error
       validation: validateSlug,
     }),

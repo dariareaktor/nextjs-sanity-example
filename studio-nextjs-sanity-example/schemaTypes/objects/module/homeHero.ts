@@ -23,7 +23,7 @@ export default defineField({
     defineField({
       name: 'link',
       title: 'Link',
-      type: 'linkInternal',
+      type: 'link',
     }),
     defineField({
       name: 'image',

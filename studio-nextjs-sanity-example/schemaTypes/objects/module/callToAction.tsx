@@ -51,14 +51,10 @@ export default defineField({
       rows: 2,
       fieldset: 'copy',
     }),
-    // Link
     defineField({
-      name: 'links',
+      name: 'link',
       title: 'Link',
-      type: 'array',
-      of: [{type: 'linkInternal'}, {type: 'linkExternal'}],
-      validation: (Rule) => Rule.max(1),
-      fieldset: 'copy',
+      type: 'link',
     }),
     // Content
     defineField({

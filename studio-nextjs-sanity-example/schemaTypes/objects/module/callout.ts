@@ -7,7 +7,6 @@ export default defineField({
   type: 'object',
   icon: BulbOutlineIcon,
   fields: [
-    // Text
     defineField({
       name: 'text',
       title: 'Text',
@@ -18,13 +17,23 @@ export default defineField({
         Rule.max(70).warning(`Callout length shouldn't be more than 70 characters.`),
       ],
     }),
-    // Link
     defineField({
-      name: 'links',
+      name: 'link',
       title: 'Link',
-      type: 'array',
-      of: [{type: 'linkInternal'}, {type: 'linkExternal'}],
-      validation: (Rule) => Rule.max(1),
+      type: 'link',
+    }),
+    defineField({
+      name: 'backgroundColor',
+      title: 'Background color',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Light', value: 'light'},
+          {title: 'Dark', value: 'dark'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'light',
     }),
   ],
   preview: {
@@ -33,7 +42,7 @@ export default defineField({
       url: 'url',
     },
     prepare(selection) {
-      const {text, url} = selection
+      const {text} = selection
       return {
         subtitle: 'Callout',
         title: text,

@@ -27,6 +27,7 @@ const blocks = [body]
 // Object types
 import linkExternal from './objects/global/linkExternal'
 import linkInternal from './objects/global/linkInternal'
+import link from './objects/global/link'
 import heroHome from './objects/module/homeHero'
 import moduleAccordion from './objects/module/accordion'
 import accordionBody from './objects/module/accordionBody'
@@ -47,6 +48,7 @@ import placeholderString from './objects/global/placeholderString'
 const objects = [
   linkExternal,
   linkInternal,
+  link,
   heroHome,
   moduleAccordion,
   accordionBody,
