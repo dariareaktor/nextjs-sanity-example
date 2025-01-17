@@ -8,8 +8,9 @@ const annotations = [annotationLinkEmail, annotationLinkExternal, annotationLink
 // Document types
 import page from './documents/page'
 import media from './documents/media'
+import banner from './documents/banner'
 
-const documents = [page, media]
+const documents = [page, media, banner]
 
 // Singleton document types
 import homePage from './singletons/homePage'
