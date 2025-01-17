@@ -31,7 +31,12 @@ export default defineField({
       title: 'Page builder',
       description: 'Page modules and sections',
       type: 'array',
-      of: [{type: 'module.callout'}, {type: 'module.callToAction'}, {type: 'module.youtubeVideo'}],
+      of: [
+        {type: 'module.callout'},
+        {type: 'module.callToAction'},
+        {type: 'module.youtubeVideo'},
+        {type: 'module.form'},
+      ],
       group: 'editorial',
     }),
     // SEO

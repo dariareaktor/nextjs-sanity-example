@@ -34,6 +34,7 @@ import accordionBody from './objects/module/accordionBody'
 import accordionGroup from './objects/module/accordionGroup'
 import callout from './objects/module/callout'
 import callToAction from './objects/module/callToAction'
+import form from './objects/module/form'
 import grid from './objects/module/grid'
 import gridItems from './objects/module/gridItem'
 import youtubeVideo from './objects/module/youtubeVideo'
@@ -57,6 +58,7 @@ const objects = [
   navigationGroup,
   callout,
   callToAction,
+  form,
   grid,
   gridItems,
   youtubeVideo,
