@@ -9,8 +9,9 @@ const annotations = [annotationLinkEmail, annotationLinkExternal, annotationLink
 import page from './documents/page'
 import media from './documents/media'
 import banner from './documents/banner'
+import post from './documents/post'
 
-const documents = [page, media, banner]
+const documents = [page, media, banner, post]
 
 // Singleton document types
 import homePage from './singletons/homePage'
@@ -38,8 +39,6 @@ import callToAction from './objects/module/callToAction'
 import carousel from './objects/module/carousel'
 import carouselItem from './objects/module/carouselItem'
 import form from './objects/module/form'
-import grid from './objects/module/grid'
-import gridItems from './objects/module/gridItem'
 import youtubeVideo from './objects/module/youtubeVideo'
 import navigationGroup from './objects/global/navigationGroup'
 import seo from './objects/seo/seo'
@@ -64,8 +63,6 @@ const objects = [
   carousel,
   carouselItem,
   form,
-  grid,
-  gridItems,
   youtubeVideo,
   placeholderString,
   seo,

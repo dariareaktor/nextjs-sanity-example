@@ -20,7 +20,6 @@ export default defineField({
     },
   ],
   fields: [
-    // Title
     defineField({
       name: 'title',
       title: 'Title',
@@ -28,7 +27,6 @@ export default defineField({
       group: 'editorial',
       validation: (Rule) => Rule.required(),
     }),
-    // Slug
     defineField({
       name: 'slug',
       type: 'slug',
@@ -37,11 +35,19 @@ export default defineField({
       // @ts-ignore - TODO - fix this TS error
       validation: validateSlug,
     }),
-    // Body
     defineField({
-      name: 'body',
-      title: 'Body',
-      type: 'body',
+      name: 'pageBuilder',
+      title: 'Page Builder',
+      type: 'array',
+      of: [
+        {type: 'module.youtubeVideo'},
+        {type: 'module.form'},
+        {type: 'module.carousel'},
+        {type: 'module.callout'},
+        {type: 'module.callToAction'},
+        {type: 'module.accordion'},
+        // Add more modules as needed
+      ],
       group: 'editorial',
     }),
     // SEO
@@ -54,16 +60,17 @@ export default defineField({
   ],
   preview: {
     select: {
-      active: 'active',
       seoImage: 'seo.image',
       title: 'title',
+      subtitle: 'slug.current',
     },
     prepare(selection) {
-      const {seoImage, title} = selection
+      const {seoImage, subtitle, title} = selection
 
       return {
         media: seoImage,
         title,
+        subtitle: `Slug: /${subtitle}`,
       }
     },
   },

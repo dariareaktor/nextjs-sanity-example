@@ -7,6 +7,7 @@ import notFoundPage from './notFoundPageStructure'
 import pages from './pageStructure'
 import media from './mediaStructure'
 import banner from './bannerStructure'
+import post from './postStructure'
 import navigation from './navigationStructure'
 import settings from './settingStructure'
 
@@ -38,6 +39,7 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
     'notFoundPage',
     'media',
     'banner',
+    'post',
     'navigation',
     'settings',
   ].includes(id)
@@ -51,10 +53,10 @@ export const structure: StructureResolver = (S, context) =>
       pages(S, context),
       notFoundPage(S, context),
       S.divider(),
-      media(S, context),
-      S.divider(),
       navigation(S, context),
       S.divider(),
+      media(S, context),
+      post(S, context),
       banner(S, context),
       S.divider(),
       settings(S, context),

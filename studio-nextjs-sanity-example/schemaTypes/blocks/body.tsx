@@ -22,11 +22,6 @@ export default defineField({
           },
         ],
         annotations: [
-          // Email
-          {
-            name: 'annotationLinkEmail',
-            type: 'annotationLinkEmail',
-          },
           // Internal link
           {
             name: 'annotationLinkInternal',
@@ -44,20 +39,16 @@ export default defineField({
     },
     // Custom blocks
     {
-      type: 'module.accordion',
-    },
-    {
-      type: 'module.callout',
-    },
-    {
-      type: 'module.grid',
-    },
-    {type: 'module.youtubeVideo'},
-    {
       name: 'imageReference',
       title: 'Image Reference',
       type: 'reference',
       to: [{type: 'media'}],
+    },
+    {
+      type: 'module.youtubeVideo',
+    },
+    {
+      type: 'module.accordion',
     },
   ],
 })

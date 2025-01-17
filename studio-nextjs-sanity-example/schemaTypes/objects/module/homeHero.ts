@@ -42,7 +42,6 @@ export default defineField({
           type: 'string',
           options: {
             list: [
-              // {title: 'Background', value: 'background'},
               {title: 'Left', value: 'left'},
               {title: 'Right', value: 'right'},
             ],

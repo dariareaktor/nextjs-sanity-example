@@ -37,6 +37,7 @@ export default defineField({
         {type: 'module.youtubeVideo'},
         {type: 'module.form'},
         {type: 'module.carousel'},
+        {type: 'module.accordion'},
       ],
       group: 'editorial',
     }),

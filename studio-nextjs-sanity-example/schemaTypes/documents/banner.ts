@@ -18,23 +18,6 @@ export default defineType({
       title: 'Is Visible',
       type: 'boolean',
       description: 'Mark this banner as visible on all pages.',
-      // @ts-ignore - TODO - fix this TS error
-      validation: async (Rule) =>
-        Rule.custom(async (isVisible, context) => {
-          if (isVisible) {
-            const {getClient} = context
-            const client = getClient({apiVersion: '2023-01-01'})
-
-            const visibleBanners = await client.fetch(
-              `count(*[_type == "banner" && isVisible == true])`,
-            )
-
-            if (visibleBanners > 0) {
-              return 'Only one banner can be visible at a time.'
-            }
-          }
-          return true
-        }),
     }),
   ],
   preview: {
