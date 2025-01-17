@@ -44,7 +44,6 @@ import navigationGroup from './objects/global/navigationGroup'
 import seo from './objects/seo/seo'
 import seoHome from './objects/seo/home'
 import seoPage from './objects/seo/page'
-import seoDescription from './objects/seo/description'
 
 // Collections
 import placeholderString from './objects/global/placeholderString'
@@ -68,7 +67,6 @@ const objects = [
   seo,
   seoHome,
   seoPage,
-  seoDescription,
 ]
 
 export const schemaTypes = [...annotations, ...singletons, ...objects, ...blocks, ...documents]
