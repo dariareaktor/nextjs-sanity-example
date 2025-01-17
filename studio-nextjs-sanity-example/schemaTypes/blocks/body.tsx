@@ -52,6 +52,7 @@ export default defineField({
     {
       type: 'module.grid',
     },
+    {type: 'module.youtubeVideo'},
     {
       name: 'imageReference',
       title: 'Image Reference',

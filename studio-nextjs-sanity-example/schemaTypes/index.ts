@@ -32,10 +32,11 @@ import heroHome from './objects/module/homeHero'
 import moduleAccordion from './objects/module/accordion'
 import accordionBody from './objects/module/accordionBody'
 import accordionGroup from './objects/module/accordionGroup'
-import moduleCallout from './objects/module/callout'
-import moduleCallToAction from './objects/module/callToAction'
-import moduleGrid from './objects/module/grid'
+import callout from './objects/module/callout'
+import callToAction from './objects/module/callToAction'
+import grid from './objects/module/grid'
 import gridItems from './objects/module/gridItem'
+import youtubeVideo from './objects/module/youtubeVideo'
 import navigationGroup from './objects/global/navigationGroup'
 import seo from './objects/seo/seo'
 import seoHome from './objects/seo/home'
@@ -54,10 +55,11 @@ const objects = [
   accordionBody,
   accordionGroup,
   navigationGroup,
-  moduleCallout,
-  moduleCallToAction,
-  moduleGrid,
+  callout,
+  callToAction,
+  grid,
   gridItems,
+  youtubeVideo,
   placeholderString,
   seo,
   seoHome,
