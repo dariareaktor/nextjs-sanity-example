@@ -7,17 +7,15 @@ export default defineType({
   type: 'object',
   fields: [
     defineField({
-      name: 'images',
-      title: 'Images',
+      title: 'Title',
+      name: 'title',
+      type: 'string',
+    }),
+    defineField({
+      name: 'carouselItems',
+      title: 'Carousel items',
       type: 'array',
-      of: [
-        {
-          name: 'imageReference',
-          title: 'Image Reference',
-          type: 'reference',
-          to: [{type: 'media'}],
-        },
-      ],
+      of: [{type: 'carouselItem'}],
       validation: (Rule) => Rule.min(2).required(), // Minimum 2 images
     }),
     defineField({
@@ -28,9 +26,13 @@ export default defineType({
     }),
   ],
   preview: {
-    prepare() {
+    select: {
+      text: 'text',
+    },
+    prepare(selection) {
+      const {text} = selection
       return {
-        title: 'Carousel',
+        title: text || 'Untitled Carousel',
         subtitle: 'Image Carousel',
         media: ImagesIcon,
       }
