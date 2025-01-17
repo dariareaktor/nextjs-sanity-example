@@ -34,6 +34,7 @@ import accordionBody from './objects/module/accordionBody'
 import accordionGroup from './objects/module/accordionGroup'
 import callout from './objects/module/callout'
 import callToAction from './objects/module/callToAction'
+import carousel from './objects/module/carousel'
 import form from './objects/module/form'
 import grid from './objects/module/grid'
 import gridItems from './objects/module/gridItem'
@@ -58,6 +59,7 @@ const objects = [
   navigationGroup,
   callout,
   callToAction,
+  carousel,
   form,
   grid,
   gridItems,

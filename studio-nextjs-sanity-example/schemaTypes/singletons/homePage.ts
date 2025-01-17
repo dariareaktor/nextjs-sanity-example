@@ -36,6 +36,7 @@ export default defineField({
         {type: 'module.callToAction'},
         {type: 'module.youtubeVideo'},
         {type: 'module.form'},
+        {type: 'module.carousel'},
       ],
       group: 'editorial',
     }),
