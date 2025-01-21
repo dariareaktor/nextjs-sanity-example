@@ -6,6 +6,6 @@ export type CallToAction = {
   layout: "left" | "right";
   title: string;
   body?: string;
-  links?: Link[];
+  link: Link;
   imageReference?: MediaReference;
 };

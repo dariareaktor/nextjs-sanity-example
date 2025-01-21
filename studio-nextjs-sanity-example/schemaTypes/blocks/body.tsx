@@ -38,12 +38,12 @@ export default defineField({
       type: 'block',
     },
     // Custom blocks
-    {
-      name: 'imageReference',
-      title: 'Image Reference',
-      type: 'reference',
-      to: [{type: 'media'}],
-    },
+    // {
+    //   name: 'imageReference',
+    //   title: 'Image Reference',
+    //   type: 'reference',
+    //   to: [{type: 'media'}],
+    // },
     {
       type: 'module.youtubeVideo',
     },

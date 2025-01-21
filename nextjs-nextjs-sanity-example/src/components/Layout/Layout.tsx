@@ -9,7 +9,7 @@ type NavigationItem = Link | { title: string; links: Link[] };
 type LayoutData = {
   navigation: {
     headerNavigation: NavigationItem[];
-    footerNavigation: NavigationItem[];
+    footerNavigation: { title: string; links: Link[] }[];
   };
   banner?: { title: string };
 };
@@ -26,7 +26,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 _type == "navigationGroup" => {title, links[] {title, "slug": reference->slug.current}}
             },
             footerNavigation[] {
-                _type == "linkInternal" => {title, "slug": reference->slug.current},
                 _type == "navigationGroup" => {title, links[] {title, "slug": reference->slug.current}}
             }
         }
@@ -43,18 +42,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, []);
 
   if (!data) return <div>Loading...</div>;
-  console.log(data);
 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Banner */}
       {data.banner && (
-        <div className="bg-yellow-300 text-black text-center py-2">
-          {data.banner.title}
+        <div className="py-8 bg-yellow-300 text-black text-center">
+          <div className="w-full mx-auto max-w-5xl ">{data.banner.title}</div>
         </div>
       )}
       {/* Header */}
-      <header>
+      <header className="w-full mx-auto max-w-5xl py-4">
         {data.navigation.headerNavigation && (
           <Navigation navigationItems={data.navigation.headerNavigation} />
         )}
@@ -63,9 +61,32 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main>{children}</main>
       {/* Footer */}
       <footer className="bg-gray-900 text-white">
-        {data.navigation.footerNavigation && (
-          <Navigation navigationItems={data.navigation.footerNavigation} />
-        )}
+        <div className="w-full mx-auto max-w-5xl py-4">
+          {data.navigation.footerNavigation && (
+            <ul className="flex flex-wrap gap-4">
+              {data.navigation.footerNavigation.map((item, index) => (
+                <li key={index} className="flex flex-col">
+                  <strong className="text-lg font-medium">{item.title}</strong>
+                  <ul className="mt-2 space-y-1">
+                    {item.links.map((link, linkIndex) => (
+                      <li key={linkIndex}>
+                        <a
+                          href={`/${link.slug || ""}`}
+                          className="text-gray-400 hover:underline"
+                        >
+                          {link.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          )}
+          <p className="mt-4 text-center text-sm text-gray-400">
+            &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+          </p>
+        </div>
       </footer>
     </div>
   );

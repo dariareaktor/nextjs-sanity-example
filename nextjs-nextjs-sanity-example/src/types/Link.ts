@@ -1,17 +1,5 @@
-export type LinkInternal = {
-  _type: "linkInternal";
-  title: string;
-  reference: {
-    _type: "home" | "page";
-    slug?: { current: string };
-  };
+export type Link = {
+  type: "internal" | "external";
+  internal: { title: string; slug: string };
+  external: { title: string; url: string };
 };
-
-export type LinkExternal = {
-  _type: "linkExternal";
-  title: string;
-  href: string;
-  newWindow?: boolean;
-};
-
-export type Link = LinkInternal | LinkExternal;

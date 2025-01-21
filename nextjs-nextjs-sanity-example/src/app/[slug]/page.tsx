@@ -1,9 +1,7 @@
 import { client } from "@/sanity/client";
-import { Hero as HeroData } from "@/types/Hero";
+import { Seo } from "@/types/HomeSeo";
 import { CallToAction as CallToActionData } from "@/types/CallToAction";
 import { Callout as CalloutData } from "@/types/Callout";
-import { Seo } from "@/types/HomeSeo";
-import { Hero } from "@/components/Hero";
 import { Callout } from "@/components/Callout";
 import { CallToAction } from "@/components/CallToAction";
 import { YoutubeData } from "@/types/YoutubeData";
@@ -15,35 +13,34 @@ import { AccordionSection } from "@/components/AccordionSection";
 import { FormData } from "@/types/FormData";
 import { FormSection } from "@/components/FormSection";
 
-const PAGE_QUERY = `*[_type == "home"][0]{
-  hero {
-    heading,
-    subheading,
-    link {
+const PAGE_QUERY = `
+*[_type == "page" && slug.current == $slug][0]{
+  title,
+  pageBuilder[] {
+    _type == "module.youtubeVideo" => {
+      _type,
+      url,
+    },
+     _type == "module.form" => {
+      _type,
+      title,
+      fields[] {
+        label,
         type,
-        type == "internal" => {
-          "internal": internal {
-            title,
-            "slug": reference->slug.current
-          }
-        },
-        type == "external" => {
-          "external": external {
-            title,
-            url,
-          }
-        }
-      },
-    image {
-      imageReference->{
+        placeholder,
+      }
+    },
+    _type == "module.carousel" => {
+      _type,
+      carouselItems[] {
+        text,
+        imageReference->{
           "url": image.asset->url,
           alt
-        },
-      imagePosition
+        }
+      },
+      autoplay
     },
-    backgroundColor
-  },
-  modules[] {
     _type == "module.callout" => {
      _type,
       text,
@@ -88,30 +85,6 @@ const PAGE_QUERY = `*[_type == "home"][0]{
           alt
         }
     },
-    _type == "module.youtubeVideo" => {
-      _type,
-      url,
-    },
-    _type == "module.form" => {
-      _type,
-      title,
-      fields[] {
-        label,
-        type,
-        placeholder,
-      }
-    },
-    _type == "module.carousel" => {
-      _type,
-      carouselItems[] {
-        text,
-        imageReference->{
-          "url": image.asset->url,
-          alt
-        }
-      },
-      autoplay
-    },
     _type == "module.accordion" => {
       _type,
       groups[] {
@@ -121,7 +94,7 @@ const PAGE_QUERY = `*[_type == "home"][0]{
     }
   },
   seo {
-    title,
+    title
   }
 }
 `;
@@ -130,8 +103,8 @@ const options = { next: { revalidate: 30 } };
 
 type Page = {
   _id: string;
-  hero?: HeroData;
-  modules?: (
+  title: string;
+  pageBuilder?: (
     | CallToActionData
     | CalloutData
     | YoutubeData
@@ -142,8 +115,12 @@ type Page = {
   seo?: Seo;
 };
 
-export default async function IndexPage() {
-  const page = await client.fetch<Page>(PAGE_QUERY, {}, options);
+export default async function Page({ params }: { params: { slug: string } }) {
+  const page = await client.fetch<Page>(
+    PAGE_QUERY,
+    { slug: params.slug },
+    options
+  );
 
   if (page === undefined) {
     return null;
@@ -151,9 +128,8 @@ export default async function IndexPage() {
 
   return (
     <>
-      <h1 className="sr-only">{page.seo?.title}</h1>
-      {page.hero && <Hero {...page.hero} />}
-      {page.modules?.map((section) => {
+      <h1 className="w-full mx-auto max-w-5xl py-4 text-3xl">{page.title}</h1>
+      {page.pageBuilder?.map((section) => {
         switch (section._type) {
           case "module.callout":
             return <Callout {...section} />;

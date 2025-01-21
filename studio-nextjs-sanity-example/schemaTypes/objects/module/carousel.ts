@@ -16,7 +16,7 @@ export default defineType({
       title: 'Carousel items',
       type: 'array',
       of: [{type: 'carouselItem'}],
-      validation: (Rule) => Rule.min(2).required(), // Minimum 2 images
+      validation: (Rule) => Rule.min(3).required(),
     }),
     defineField({
       name: 'autoplay',

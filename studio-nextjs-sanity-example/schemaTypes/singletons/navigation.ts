@@ -30,7 +30,7 @@ export default defineField({
       name: 'footerNavigation',
       title: 'Footer Navigation',
       type: 'array',
-      of: [{type: 'linkInternal'}, {type: 'navigationGroup'}],
+      of: [{type: 'navigationGroup'}],
       validation: (Rule) => Rule.required(),
       group: 'footer',
     }),

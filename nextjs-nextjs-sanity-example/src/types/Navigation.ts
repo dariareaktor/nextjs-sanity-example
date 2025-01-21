@@ -1,4 +1,8 @@
-import { LinkInternal } from "./Link";
+export type LinkInternal = {
+  _type: "linkInternal";
+  title: string;
+  slug: string;
+};
 
 export type NavigationGroup = {
   _type: "navigationGroup";

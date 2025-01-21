@@ -46,7 +46,6 @@ export default defineField({
         {type: 'module.callout'},
         {type: 'module.callToAction'},
         {type: 'module.accordion'},
-        // Add more modules as needed
       ],
       group: 'editorial',
     }),

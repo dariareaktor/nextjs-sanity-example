@@ -1,25 +1,26 @@
 import { FC } from "react";
 import { Callout as CalloutData } from "@/types/Callout";
-import { DynamicLink } from "./DynamicLink";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 type CalloutProps = CalloutData;
 
-export const Callout: FC<CalloutProps> = ({ text, links }) => {
+export const Callout: FC<CalloutProps> = ({ text, link }) => {
+  const linkHref =
+    link.type === "internal" ? link.internal.slug || "/" : link.external.url;
+  const linkTitle =
+    link.type === "internal" ? link.internal.title : link.external.title;
+
   return (
-    <section className="bg-emerald-800">
-      <div className="mx-auto max-w-5xl p-8 flex gap-8 justify-between">
+    <section className="bg-gray-800">
+      <div className="w-full mx-auto max-w-5xl py-8 flex gap-8 justify-between items-center">
         <p className="text-base font-light text-white">{text}</p>
-        {links && links?.length > 0 && (
-          <div>
-            {links.map((link) => (
-              <DynamicLink
-                key={link.title}
-                {...link}
-                className="py-4 px-8 w-fit text-sm text-white bg-emerald-600 rounded"
-              />
-            ))}
-          </div>
-        )}
+        <Button
+          asChild
+          className="py-4 px-8 w-fit text-l font-semibold text-white bg-gray-600 rounded"
+        >
+          <Link href={linkHref}>{linkTitle}</Link>
+        </Button>
       </div>
     </section>
   );
