@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { client } from "@/sanity/client";
 import { Navigation } from "./Navigation";
+import Link from "next/link";
 
 type Link = { title: string; slug: string };
 type NavigationItem = Link | { title: string; links: Link[] };

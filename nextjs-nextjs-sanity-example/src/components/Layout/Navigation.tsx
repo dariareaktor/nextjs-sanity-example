@@ -30,6 +30,9 @@ export const Navigation: React.FC<NavigationProps> = ({ navigationItems }) => {
   return (
     <NavigationMenu>
       <NavigationMenuList>
+        <NavigationMenuItem>
+          <Link href={"/"}>Logo</Link>
+        </NavigationMenuItem>
         {navigationItems.map((item) => {
           if (isGroup(item)) {
             return <NavigationGroupItem key={item.title} item={item} />;
@@ -44,6 +47,9 @@ export const Navigation: React.FC<NavigationProps> = ({ navigationItems }) => {
             </NavigationMenuItem>
           );
         })}
+        <NavigationMenuItem>
+          <Link href={"/blog"}>Blog</Link>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
