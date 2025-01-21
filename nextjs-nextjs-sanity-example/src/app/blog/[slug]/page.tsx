@@ -3,11 +3,15 @@ import { client } from "@/sanity/client";
 import { AccordionSection } from "@/components/AccordionSection";
 import { YoutubeVideo } from "@/components/YoutubeVideo";
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+type PageProps = Promise<{
+  params: {
+    slug: string;
+  };
+}>;
+
+export default async function BlogPostPage(props: { params: PageProps }) {
+  const params = await props.params;
+
   const data = await client.fetch(
     `
     *[_type == "post" && slug.current == $slug][0]{
@@ -17,7 +21,7 @@ export default async function BlogPostPage({
       body
     }
     `,
-    { slug: params.slug }
+    { slug: params.params.slug }
   );
 
   if (!data) {
