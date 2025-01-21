@@ -115,16 +115,18 @@ type Page = {
   seo?: Seo;
 };
 
-type PageProps = {
+type PageProps = Promise<{
   params: {
     slug: string;
   };
-};
+}>;
 
-export default async function Page({ params }: PageProps) {
+export default async function Page(props: { params: PageProps }) {
+  const params = await props.params;
+
   const page = await client.fetch<Page>(
     PAGE_QUERY,
-    { slug: params.slug },
+    { slug: params.params.slug },
     options
   );
 
