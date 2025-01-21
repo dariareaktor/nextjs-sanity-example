@@ -11,7 +11,8 @@ import { PortableText } from "@portabletext/react";
 type AccordionSectionProps = {
   groups: {
     title: string;
-    body: any; // Replace `any` with the appropriate PortableText type
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    body: any;
   }[];
 };
 
